@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>组件</title>
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div id="app" v-cloak>
+</div>
+<script src="js/vue.js"></script>
+<script>
+  let PublicPage = {
+    template:`
+      <div>我是公共组件</div>
+    `,
+  };
+  //全局组件注册
+  Vue.component("PublicPage",PublicPage)
+
+  //首页
+  let HomePage = {
+    template:`
+      <div>{{title}}
+        <PublicPage></PublicPage>
+      </div>
+    `,
+    data(){
+      return {
+        title : '首页'
+      }
+    }
+  };
+
+  //入口
+  let App = {
+    template:`
+      <div>
+        <HomePage></HomePage>
+    </div>
+    `,
+    //局部组件注册方式
+    components:{
+      HomePage
+    }
+  };
+
+  new Vue({
+    el:'#app',
+    template:`
+      <App></App>
+    `,
+    components:{
+      App
+    }
+  })
+</script>
+</body>
+
+</html>

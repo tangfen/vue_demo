@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ref使用</title>
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+<div id="app">
+  <div class="box1" ref="box1">11</div>
+  <div class="box2" ref="box2">22</div>
+  <div class="box3" ref="box3">333</div>
+
+</div>
+<script src="js/vue.js"></script>
+<script>
+  const app = new Vue({
+    el : '#app',
+    data:{
+    },
+    mounted(){
+      //相对于原生的js获取：性能更好 且避免各个组件的id冲突
+      console.log(this.$refs.box1.innerHTML)
+    }
+  })
+
+  // 父组件调用子组件的方法
+</script>
+</body>
+
+</html>

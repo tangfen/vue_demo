@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ref使用</title>
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+<div id="app">
+
+</div>
+<script src="js/vue.js"></script>
+<script>
+
+  let App = {
+    template:`
+      <div>
+        我是APP组件
+      </div>
+    `,
+    data(){
+      return {
+        title : '首页'
+      }
+    },
+    methods:{
+      send(){
+        console.log('我是子组件的方法')
+      }
+    }
+  }
+  new Vue({
+    el : '#app',
+    template:`
+      <div>
+        <div class="box1" ref="box1">11</div>
+        <div class="box2" ref="box2">22</div>
+        <div class="box3" ref="box3">333</div>
+        <App ref="app">
+
+        </App>
+      </div>
+
+    `,
+    data:{
+    },
+    components:{
+      App
+    },
+    mounted(){
+      //调用自组件里面的方法
+      this.$refs['app'].send()
+    }
+  })
+
+  // 父组件调用子组件的方法
+</script>
+</body>
+
+</html>

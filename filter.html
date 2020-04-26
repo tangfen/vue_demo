@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>过滤器</title>
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div id="app" v-cloak>
+</div>
+<script src="js/vue.js"></script>
+<script>
+  //注册全局过滤器
+  Vue.filter("increase",function (value,num1,num2) {
+    return (value+num1+num2)
+  })
+  let PublicPage = {
+    template:`
+      <div>计数器{{count|increase(20,30)}}</div>
+    `,
+    data(){
+      return {
+        count : 1
+      }
+    }
+  };
+  Vue.component("PublicPage",PublicPage)
+
+  //首页
+  let HomePage = {
+    template:`
+      <div>{{title}}
+        日期：{{('2019-01-22')|formatDate}}
+        <PublicPage></PublicPage>
+      </div>
+    `,
+    data(){
+      return {
+        title : '首页'
+      }
+    },
+    //局部过滤器
+    filters:{
+      formatDate(value){
+        return value.replace('-','/')
+      }
+    }
+  };
+
+  //入口
+  let App = {
+    template:`
+      <div>
+        <HomePage></HomePage>
+    </div>
+    `,
+    components:{
+      HomePage
+    },
+
+  };
+
+  new Vue({
+    el:'#app',
+    template:`
+      <App></App>
+    `,
+    components:{
+      App
+    }
+  })
+</script>
+</body>
+
+</html>

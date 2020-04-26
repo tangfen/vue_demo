@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>父子组件传值</title>
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div id="app" v-cloak>
+</div>
+<script src="js/vue.js"></script>
+<script>
+  //子组件
+  let ChildPage = {
+    template:`
+      <div>{{title}}
+      <button @click="sendParent()">自组件给父组件传值</button>
+      </div>
+    `,
+    //方式一
+//    props:['title'],
+    //方式二
+    props:{
+      title:{
+        type:String,
+        required:true
+      }
+    },
+    methods:{
+      sendParent(){
+        this.$emit('getChild','我是子传来的值')
+      }
+    }
+  };
+
+  //父组件
+  let ParentPage = {
+    template:`
+      <div>{{title}}
+      <ChildPage title="我是父组件传过来的值" @getChild="getChild($event)"></ChildPage>
+      </div>
+    `,
+    data(){
+      return {
+        title : '我是父组件'
+      }
+    },
+    components:{
+      ChildPage
+    },
+    methods:{
+      getChild(val){
+        console.log(val)
+
+      }
+    }
+  };
+
+
+  //入口
+  let App = {
+    template:`
+      <div>
+        <ParentPage></ParentPage>
+    </div>
+    `,
+    //局部组件注册方式
+    components:{
+      ParentPage
+    }
+  };
+
+  new Vue({
+    el:'#app',
+    template:`
+      <App></App>
+    `,
+    components:{
+      App
+    }
+  })
+</script>
+</body>
+
+</html>

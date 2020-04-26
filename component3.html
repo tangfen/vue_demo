@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>父子组件双向数据绑定</title>
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div id="app" v-cloak>
+</div>
+<script src="js/vue.js"></script>
+<script>
+
+
+  //首页
+  let InputPage = {
+    template:`
+      <div>{{title}}
+      <input v-model="currentValue"/>
+    `,
+    data(){
+      return {
+        title : '首页1'
+      }
+    },
+    props:{
+      value:{
+        type : String
+      }
+    },
+    computed:{
+      currentValue : {
+        get(){
+          return this.value;
+        },
+        set(val){
+          this.$emit("input",val)
+        }
+      }
+    },
+    methods:{
+
+    }
+  };
+
+  let ParentPage = {
+    template:`
+      <div>
+        <InputPage v-model="value"></InputPage>{{value}}
+      </div>
+    `,
+    data(){
+      return {
+        value : ''
+      }
+    },
+    components:{
+      InputPage
+    },
+    created(){
+
+    }
+  };
+
+  //入口
+  let App = {
+    template:`
+      <div>
+        <ParentPage></ParentPage>
+    </div>
+    `,
+    //局部组件注册方式
+    components:{
+      ParentPage
+    }
+  };
+
+  new Vue({
+    el:'#app',
+    template:`
+      <App></App>
+    `,
+    components:{
+      App
+    }
+  })
+</script>
+</body>
+
+</html>

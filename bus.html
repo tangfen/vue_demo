@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>兄弟组件传值</title>
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div id="app" v-cloak>
+</div>
+<script src="js/vue.js"></script>
+<script>
+  //定义一个bus组件
+  let bus = new Vue;
+
+  //首页
+  let APage = {
+    template:`
+      <div>{{title}}
+      <button @click="sendB()">给B传值</button>
+      </div>
+    `,
+    data(){
+      return {
+        title : '首页1'
+      }
+    },
+    methods:{
+      sendB(){
+        bus.$emit('getA','A传来的')
+      }
+    }
+  };
+
+  let BPage = {
+    template:`
+      <div>{{aValue}}
+      </div>
+    `,
+    data(){
+      return {
+        title : '首页2',
+        aValue : ''
+      }
+    },
+    created(){
+      bus.$on('getA',(message => {
+        this.aValue = (message)
+      }))
+    }
+  };
+
+  //入口
+  let App = {
+    template:`
+      <div>
+        <APage></APage>
+        <BPage></BPage>
+    </div>
+    `,
+    //局部组件注册方式
+    components:{
+      APage,
+      BPage
+    }
+  };
+
+  new Vue({
+    el:'#app',
+    template:`
+      <App></App>
+    `,
+    components:{
+      App
+    }
+  })
+</script>
+</body>
+
+</html>
