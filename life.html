@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>demo</title>
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+<div id="app">
+</div>
+<script src="js/vue.js"></script>
+<script>
+  //入口
+  let App = {
+    template:`
+      <div>{{name}}<button @click="name='miya'">改名</button>
+      <div>
+        <input v-if="isShow" ref="username" placeholder="请输入用户名"/>
+        <button @click="isShow=true" >显示</button>
+      </div>
+      </div>
+    `,
+    data(){
+      return {
+        'name':'张三',
+        'isShow':false
+      }
+    },
+    //初始化之前
+    beforeCreate(){
+      console.log('beforeCreate')
+    },
+    //初始化完成，不能获取dom，一般用于ajax数据获取
+    created(){
+      console.log('created')
+    },
+    //挂载之前
+    beforeMount(){
+      console.log('beforeMount')
+    },
+    //挂载完之后，可以获取dom
+    mounted(){
+      console.log('mounted')
+    },
+    //数据更新之前 =>data的数据更新
+    beforeUpdate(){
+      console.log('beforeUpdate')
+    },
+    //数据更新之后 =>data的数据更新
+    /*
+    * 1.更新数据之后获取焦点
+    * 2.动态获取dom属性
+    * 3.更新数据之后对dom操作*/
+    updated(){
+      console.log('updated')
+      this.$refs['username'].focus()
+    },
+
+
+    //学习路由之后再添加
+
+    //解除绑定之前
+    beforeDestroy(){
+
+    },
+    //解除绑定之后 不能获取dom 一般消除定时器等
+    Destroyed(){
+
+    },
+    //keep-alive组件激活时调用，用于性能优化缓存dom和数据
+    activated(){
+      //一般跟created一起获取数据，排除keep-alive的缓存
+
+    },
+    //keep-alive组件停用时调用
+    deactivated(){
+
+    }
+  };
+  const app = new Vue({
+    el:'#app',
+    template:`
+      <App></App>
+    `,
+    components:{
+      App
+    }
+  })
+</script>
+</body>
+
+</html>

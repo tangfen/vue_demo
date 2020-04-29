@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>slot</title>
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+<div id="app">
+</div>
+<script src="js/vue.js"></script>
+<script>
+  //首页
+  let ButtonPage = {
+    template:`
+      <div>
+      <button :type="type"><slot></slot></button>
+      </div>
+    `,
+    data(){
+      return {
+      }
+    },
+    methods:{
+
+    },
+    props:{
+      type:{
+        type:String,
+        default:'button'
+      }
+    }
+  };
+
+  let MyDiv = {
+    template:`
+      <div>
+      <slot></slot>
+      </div>
+    `,
+    mounted(){
+      console.log(this.$slots.default[0].elm.offsetWidth)
+    }
+  }
+
+  let BPage = {
+    template:`
+      <div>
+      <my-button>按钮</my-button>
+      <my-button type="submit">提交</my-button>
+      <my-div>
+        <div class="a">aaa</div>
+         <div class="b">bbb</div>
+      </my-div>
+</div>
+
+    `,
+    data(){
+      return {
+        title : '首页2',
+        aValue : ''
+      }
+    },
+    components:{
+      "my-button":ButtonPage,
+      "my-div":MyDiv
+    },
+    created(){
+    }
+  };
+
+  //入口
+  let App = {
+    template:`
+      <div>
+        <BPage></BPage>
+    </div>
+    `,
+    //局部组件注册方式
+    components:{
+      BPage
+    }
+  };
+
+  new Vue({
+    el:'#app',
+    template:`
+      <App></App>
+    `,
+    components:{
+      App
+    }
+  })
+</script>
+</body>
+
+</html>
